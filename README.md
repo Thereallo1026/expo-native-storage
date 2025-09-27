@@ -1,5 +1,8 @@
 # expo-native-storage
 
+[![npm version](https://badge.fury.io/js/expo-native-storage.svg)](https://badge.fury.io/js/expo-native-storage)
+[![npm downloads](https://img.shields.io/npm/dm/expo-native-storage.svg)](https://npmjs.org/package/expo-native-storage)
+
 Lightning-fast native storage for Expo.
 
 ## Why?
