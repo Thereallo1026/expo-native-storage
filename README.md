@@ -8,7 +8,7 @@ Lightning-fast native storage for Expo.
 ## Why?
 
 - **Fast**: Direct native storage, no bridge delays
-- **Tiny**: 35x smaller bundle size compared to AsyncStorage (200KB vs 5.7KB)
+- **Tiny**: 35x smaller bundle size compared to AsyncStorage (381 vs ~6KB)
 - **Synchronous option**: Near instant API calls
 - **Web support**: Falls back to localStorage
 - **Native**: Uses UserDefaults & SharedPreferences
@@ -16,7 +16,10 @@ Lightning-fast native storage for Expo.
 ## Installation
 
 ```bash
+# bun
 bunx expo install expo-native-storage
+# npm
+npx expo install expo-native-storage
 ```
 
 ## Usage
@@ -87,9 +90,9 @@ await Storage.setItem('key', 'value');
 | iOS Phone | 72ms | 72ms | Same speed |
 | Bundle Size | 5.71KB | ~200KB | **35x smaller** |
 
-All emulators are running on a MacBook Pro M4 with 16GB of RAM.
+All emulators are running on a MacBook Pro M4 with 16GB RAM.
 
-*Tested on iPhone 17 Pro and Nothing Phone 3a*
+Tested on iPhone 17 Pro and Nothing Phone 3a with Android 15.
 
 ## Platform Notes
 
