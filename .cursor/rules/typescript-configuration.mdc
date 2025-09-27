@@ -1,0 +1,43 @@
+---
+globs: *.ts,*.tsx
+description: TypeScript configuration and coding standards for expo-native-storage
+---
+
+# TypeScript Configuration
+
+Configuration based on [tsconfig.json](mdc:tsconfig.json) with strict typing enabled.
+
+## TypeScript Standards
+
+1. **Strict Mode**: Always use strict TypeScript configuration
+   - `strict: true`
+   - `strictNullChecks: true`
+   - `forceConsistentCasingInFileNames: true`
+
+2. **Module System**: 
+   - Use ESNext modules (`"module": "esnext"`)
+   - Node module resolution (`"moduleResolution": "node"`)
+   - Enable JSON imports (`"resolveJsonModule": true`)
+
+3. **Type Declarations**:
+   - Generate declaration files (`"declaration": true`)
+   - Include source maps for debugging (`"declarationMap": true`, `"sourceMap": true`)
+   - Output to build directory (`"outDir": "./build"`)
+
+4. **Generic Constraints**:
+   - Use proper generic constraints like `T extends Record<string, unknown>`
+   - Prefer specific types over `any`
+   - Use type guards for runtime type checking
+
+## Code Patterns
+
+1. **Async/Await**: Always use async/await for Promise-based APIs
+2. **Error Handling**: Use try/catch blocks with proper error typing
+3. **Null Safety**: Always check for null/undefined before usage
+4. **Interface Definition**: Use clear interface definitions for module contracts
+
+## Build Configuration
+
+- Source directory: `./src`
+- Output directory: `./build`
+- Excludes: test files, mocks, node_modules, and build directory

@@ -1,0 +1,56 @@
+---
+globs: src/index.ts,src/ExpoNativeStorageModule*.ts
+description: API design patterns and class structure for the storage module
+---
+
+# API Design Patterns
+
+Guidelines for maintaining clean and consistent API design based on [src/index.ts](mdc:src/index.ts).
+
+## Class Structure
+
+1. **NativeStorage Class**: Main wrapper class that provides high-level API
+2. **Singleton Export**: Export default instance for convenience (`Storage`)
+3. **Method Organization**: Group related functionality logically
+
+## Method Patterns
+
+### Basic Storage Operations
+- `setItem(key: string, value: string): Promise<void>`
+- `getItem(key: string): Promise<string | null>`
+- `removeItem(key: string): Promise<void>`
+- `clear(): Promise<void>`
+
+### Object Storage Convenience Methods
+- `setObject<T extends Record<string, unknown>>(key: string, value: T): Promise<void>`
+- `getObject<T extends Record<string, unknown>>(key: string): Promise<T | null>`
+
+## Error Handling Strategy
+
+1. **JSON Parsing**: Use try/catch blocks and return null on parse errors
+2. **Async Operations**: Don't expose boolean returns from native modules to public API
+3. **Type Safety**: Use generic constraints to ensure object serialization safety
+
+## Type Design
+
+1. **Generic Constraints**: Use `T extends Record<string, unknown>` for object types
+2. **Return Types**: Consistent null returns for missing values
+3. **Promise Wrapping**: Wrap all operations in Promises for consistency
+
+## Module Declaration
+
+Declare native module interface at top of file:
+```typescript
+declare const ExpoNativeStorageModule: {
+  setItem(key: string, value: string): Promise<boolean>;
+  getItem(key: string): Promise<string | null>;
+  removeItem(key: string): Promise<boolean>;
+  clear(): Promise<boolean>;
+};
+```
+
+## Export Pattern
+
+- Export named class `NativeStorage`
+- Export default singleton instance `Storage`
+- Maintain both for flexibility in usage patterns

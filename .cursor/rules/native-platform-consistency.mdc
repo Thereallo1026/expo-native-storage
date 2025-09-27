@@ -1,0 +1,43 @@
+---
+globs: *.swift,*.kt,src/ExpoNativeStorageModule.web.ts
+description: Guidelines for maintaining consistency across native platform implementations
+---
+
+# Native Platform Consistency
+
+Ensure all platform implementations provide identical functionality and behavior.
+
+## iOS Implementation ([src/ios/ExpoNativeStorage.swift](mdc:src/ios/ExpoNativeStorage.swift))
+
+1. **Storage Backend**: Use `UserDefaults.standard` for persistence
+2. **Synchronization**: Always call `synchronize()` after write operations
+3. **Module Name**: Must match "ExpoNativeStorage" across all platforms
+4. **Function Signatures**: Match exact parameter and return types
+
+## Android Implementation ([src/android/ExpoNativeStorageModule.kt](mdc:src/android/ExpoNativeStorageModule.kt))
+
+1. **Storage Backend**: Use `SharedPreferences` with name "ExpoNativeStorage"
+2. **Context**: Access through `appContext.reactContext`
+3. **Write Operations**: Use `apply()` for asynchronous commits
+4. **Module Name**: Must match "ExpoNativeStorage" across all platforms
+
+## Web Implementation ([src/ExpoNativeStorageModule.web.ts](mdc:src/ExpoNativeStorageModule.web.ts))
+
+1. **Storage Backend**: Use `localStorage` with feature detection
+2. **Fallback Behavior**: Return appropriate defaults when localStorage unavailable
+3. **Async Consistency**: Maintain async signatures even though localStorage is synchronous
+4. **Error Handling**: Return false/null instead of throwing when storage unavailable
+
+## API Contract Requirements
+
+All implementations must provide these exact function signatures:
+- `setItem(key: string, value: string): Promise<boolean>`
+- `getItem(key: string): Promise<string | null>`
+- `removeItem(key: string): Promise<boolean>`  
+- `clear(): Promise<boolean>`
+
+## Testing Considerations
+
+1. **Cross-Platform**: Test identical behavior on all supported platforms
+2. **Error Cases**: Verify graceful degradation when storage unavailable
+3. **Data Persistence**: Ensure data survives app restarts on native platforms

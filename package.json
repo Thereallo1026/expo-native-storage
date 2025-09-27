@@ -1,0 +1,54 @@
+{
+  "name": "expo-native-storage",
+  "version": "0.1.0",
+  "description": "Lightning-fast native storage for Expo.",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "files": [
+    "build/",
+    "ios/",
+    "android/",
+    "expo-module.config.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "expo-module build",
+    "build:once": "tsc",
+    "pack": "bun build:once && bun pm pack",
+    "clean": "expo-module clean",
+    "test": "expo-module test",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module",
+    "format": "ultracite fix"
+  },
+  "keywords": [
+    "expo",
+    "storage",
+    "react-native",
+    "userdefaults",
+    "sharedpreferences"
+  ],
+  "author": "Thereallo",
+  "license": "MIT",
+  "homepage": "https://github.com/thereallo1026/expo-native-storage",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thereallo1026/expo-native-storage.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thereallo1026/expo-native-storage/issues"
+  },
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.4",
+    "expo-module-scripts": "^3.0.0",
+    "expo-modules-core": "^1.5.0",
+    "ultracite": "5.4.4"
+  }
+}

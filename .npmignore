@@ -1,0 +1,29 @@
+# .npmignore
+# TypeScript source files (ship compiled JS)
+src/*.ts
+src/*.tsx
+
+# Build artifacts that don't need to be shipped
+tsconfig.json
+.git/
+node_modules/
+example/    
+coverage/
+logs/
+*.log
+
+# Documentation (except README)
+*.md
+!README.md
+
+# Development files
+.eslintrc.*
+.prettierrc.*
+biome.jsonc
+
+# Exclude standalone Expo app files (not needed for module)
+ios/
+android/
+app.json
+.expo/
+*.tgz

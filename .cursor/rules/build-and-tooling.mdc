@@ -1,0 +1,56 @@
+---
+description: Build system and tooling configuration for expo-native-storage
+---
+
+# Build System and Tooling
+
+Build and development workflow based on [package.json](mdc:package.json) and project configuration.
+
+## Package Manager
+
+- **Primary**: Use Bun for all package operations (bun.lock present)
+- **Install**: `bun install`
+- **Execute**: `bunx` for package execution
+- **Scripts**: `bun run <script>` for npm scripts
+
+## Build Scripts
+
+### Development
+- `bun run build:once` - Single TypeScript compilation for development
+- `bun run build` - Full expo-module build process for production
+
+### Quality Control
+- `bun run format` - Format code using ultracite
+- `bun run test` - Run test suite via expo-module scripts
+
+### Maintenance  
+- `bun run clean` - Clean build artifacts
+- `bun run prepare` - Prepare module for development
+- `bun run prepublishOnly` - Pre-publish validation
+
+## Dependencies
+
+### Peer Dependencies (Required by consumers)
+- `expo: "*"` - Expo SDK
+- `react: "*"` - React framework  
+- `react-native: "*"` - React Native platform
+
+### Development Dependencies
+- `expo-module-scripts` - Build and development tools
+- `expo-modules-core` - Core Expo modules functionality
+- `@biomejs/biome` - Fast linter and formatter
+- `ultracite` - Code formatting and quality
+
+## Configuration Files
+
+- **TypeScript**: [tsconfig.json](mdc:tsconfig.json) - Extends expo-module-scripts base
+- **Module Config**: [expo-module.config.json](mdc:expo-module.config.json) - Platform support
+- **Biome**: [biome.jsonc](mdc:biome.jsonc) - Linting and formatting rules
+
+## Output Structure
+
+Build outputs to `build/` directory:
+- `index.js` / `index.d.ts` - Main module entry
+- `ExpoNativeStorageModule.js` / `.d.ts` - Native module
+- `ExpoNativeStorageModule.web.js` / `.d.ts` - Web implementation
+- Source maps for all compiled files

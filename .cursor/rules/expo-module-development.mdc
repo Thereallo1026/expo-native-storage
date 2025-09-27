@@ -1,0 +1,37 @@
+---
+alwaysApply: true
+description: Expo module development guidelines and project structure
+---
+
+# Expo Native Storage Module Development
+
+This is an Expo module for lightning-fast native storage. Follow these guidelines when developing:
+
+## Project Structure
+
+- **Entry Point**: [src/index.ts](mdc:src/index.ts) - Main TypeScript module exports
+- **Native Module Definition**: [src/ExpoNativeStorageModule.ts](mdc:src/ExpoNativeStorageModule.ts) - Core module interface
+- **Platform Implementations**:
+  - iOS: [src/ios/ExpoNativeStorage.swift](mdc:src/ios/ExpoNativeStorage.swift)
+  - Android: [src/android/ExpoNativeStorageModule.kt](mdc:src/android/ExpoNativeStorageModule.kt)
+  - Web: [src/ExpoNativeStorageModule.web.ts](mdc:src/ExpoNativeStorageModule.web.ts)
+
+## Module Configuration
+
+- **Config**: [expo-module.config.json](mdc:expo-module.config.json) defines supported platforms
+- **Build**: Uses expo-module-scripts for building and TypeScript compilation
+- **Package**: [package.json](mdc:package.json) configured as Expo module with proper peer dependencies
+
+## Development Guidelines
+
+1. **API Consistency**: All platform implementations must provide identical async APIs
+2. **Error Handling**: Use consistent error patterns across platforms
+3. **TypeScript**: All code must be strongly typed with strict null checks
+4. **Build Process**: Use `bun run build` for production builds, `bun run build:once` for development
+5. **Code Quality**: Format with `bun run format` using ultracite before commits
+
+## Platform-Specific Notes
+
+- **iOS**: Uses UserDefaults for persistence
+- **Android**: Uses SharedPreferences for persistence  
+- **Web**: Falls back to localStorage with feature detection
