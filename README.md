@@ -8,7 +8,7 @@ Lightning-fast native storage for Expo.
 ## Why?
 
 - **Fast**: Direct native storage, no bridge delays
-- **Tiny**: 35x smaller bundle size compared to AsyncStorage (381 vs ~6KB)
+- **Tiny**: 35x smaller bundle size compared to AsyncStorage (381KB vs ~6KB)
 - **Synchronous option**: Near instant API calls
 - **Web support**: Falls back to localStorage
 - **Native**: Uses UserDefaults & SharedPreferences
