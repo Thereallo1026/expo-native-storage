@@ -1,0 +1,129 @@
+name: Publish Package
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'package.json'
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version-changed: ${{ steps.check.outputs.changed }}
+      version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Check if version changed
+        id: check
+        run: |
+          CHANGED=$(git diff HEAD^ HEAD -- package.json | grep '"version"' || echo "")
+          if [ -n "$CHANGED" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Get version
+        id: get-version
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+  publish:
+    needs: check-version
+    if: needs.check-version.outputs.version-changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: bun install
+      
+      - name: Build package
+        run: bun run build
+      
+      - name: Pack tarball
+        run: bun run pack
+      
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Create Git Tag
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag v${{ needs.check-version.outputs.version }}
+          git push origin v${{ needs.check-version.outputs.version }}
+      
+      - name: Get previous tag
+        id: previoustag
+        run: |
+          PREV_TAG=$(git tag --sort=-version:refname | grep -v "v${{ needs.check-version.outputs.version }}" | head -n 1)
+          echo "tag=$PREV_TAG" >> $GITHUB_OUTPUT
+      
+      - name: Generate changelog
+        id: changelog
+        run: |
+          if [ -n "${{ steps.previoustag.outputs.tag }}" ]; then
+            CHANGELOG=$(git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+          else
+            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+          fi
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGELOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+      
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.check-version.outputs.version }}
+          name: Release v${{ needs.check-version.outputs.version }}
+          body: |
+            ## 🎉 expo-native-storage v${{ needs.check-version.outputs.version }}
+            
+            ### 📦 Installation
+            ```bash
+            npm install expo-native-storage@${{ needs.check-version.outputs.version }}
+            # or
+            bunx expo install expo-native-storage
+            ```
+            
+            ### 📝 Changes
+            ${{ steps.changelog.outputs.changelog }}
+            
+            ### 📚 Documentation
+            - [npm Package](https://www.npmjs.com/package/expo-native-storage)
+            - [GitHub Repository](https://github.com/Thereallo1026/expo-native-storage)
+            
+            ---
+            **Full Changelog**: https://github.com/Thereallo1026/expo-native-storage/compare/${{ steps.previoustag.outputs.tag }}...v${{ needs.check-version.outputs.version }}
+          files: |
+            expo-native-storage-*.tgz
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
