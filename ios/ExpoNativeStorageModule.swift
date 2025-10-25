@@ -4,26 +4,42 @@ public class ExpoNativeStorageModule: Module {
   public func definition() -> ModuleDefinition {
     Name("ExpoNativeStorage")
     
-    Function("setItem") { (key: String, value: String) -> Bool in
+    // synchronous
+    Function("setItemSync") { (key: String, value: String) in
       UserDefaults.standard.set(value, forKey: key)
-      return UserDefaults.standard.synchronize()
     }
     
-    Function("getItem") { (key: String) -> String? in
+    Function("getItemSync") { (key: String) -> String? in
       return UserDefaults.standard.string(forKey: key)
     }
     
-    Function("removeItem") { (key: String) -> Bool in
+    Function("removeItemSync") { (key: String) in
       UserDefaults.standard.removeObject(forKey: key)
-      return UserDefaults.standard.synchronize()
     }
     
-    Function("clear") { () -> Bool in
+    Function("clearSync") { () in
       if let bundleID = Bundle.main.bundleIdentifier {
         UserDefaults.standard.removePersistentDomain(forName: bundleID)
-        return UserDefaults.standard.synchronize()
       }
-      return false
+    }
+    
+    // async
+    AsyncFunction("setItem") { (key: String, value: String) in
+      UserDefaults.standard.set(value, forKey: key)
+    }
+    
+    AsyncFunction("getItem") { (key: String) -> String? in
+      return UserDefaults.standard.string(forKey: key)
+    }
+    
+    AsyncFunction("removeItem") { (key: String) in
+      UserDefaults.standard.removeObject(forKey: key)
+    }
+    
+    AsyncFunction("clear") { () in
+      if let bundleID = Bundle.main.bundleIdentifier {
+        UserDefaults.standard.removePersistentDomain(forName: bundleID)
+      }
     }
   }
 }

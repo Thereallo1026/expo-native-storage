@@ -15,23 +15,38 @@ class ExpoNativeStorageModule : Module() {
   override fun definition() = ModuleDefinition {
     Name("ExpoNativeStorage")
     
-    Function("setItem") { key: String, value: String ->
+    // synchronous
+    Function("setItemSync") { key: String, value: String ->
       prefs.edit().putString(key, value).apply()
-      return@Function true
     }
     
-    Function("getItem") { key: String ->
+    Function("getItemSync") { key: String ->
       return@Function prefs.getString(key, null)
     }
     
-    Function("removeItem") { key: String ->
+    Function("removeItemSync") { key: String ->
       prefs.edit().remove(key).apply()
-      return@Function true
     }
     
-    Function("clear") {
+    Function("clearSync") {
       prefs.edit().clear().apply()
-      return@Function true
+    }
+    
+    // async
+    AsyncFunction("setItem") { key: String, value: String ->
+      prefs.edit().putString(key, value).apply()
+    }
+    
+    AsyncFunction("getItem") { key: String ->
+      return@AsyncFunction prefs.getString(key, null)
+    }
+    
+    AsyncFunction("removeItem") { key: String ->
+      prefs.edit().remove(key).apply()
+    }
+    
+    AsyncFunction("clear") {
+      prefs.edit().clear().apply()
     }
   }
 }
