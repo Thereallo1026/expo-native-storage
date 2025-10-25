@@ -103,19 +103,19 @@ jobs:
           tag_name: v${{ needs.check-version.outputs.version }}
           name: Release v${{ needs.check-version.outputs.version }}
           body: |
-            ## 🎉 expo-native-storage v${{ needs.check-version.outputs.version }}
+            ## expo-native-storage v${{ needs.check-version.outputs.version }}
             
-            ### 📦 Installation
+            ### Installation
             ```bash
             npm install expo-native-storage@${{ needs.check-version.outputs.version }}
             # or
             bunx expo install expo-native-storage
             ```
             
-            ### 📝 Changes
+            ### Changes
             ${{ steps.changelog.outputs.changelog }}
             
-            ### 📚 Documentation
+            ### Documentation
             - [npm Package](https://www.npmjs.com/package/expo-native-storage)
             - [GitHub Repository](https://github.com/Thereallo1026/expo-native-storage)
             
