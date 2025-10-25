@@ -77,6 +77,7 @@ export class NativeStorage {
     }
   }
 
+  // multi ops
   async multiGet(keys: string[]): Promise<Record<string, string | null>> {
     const result: Record<string, string | null> = {};
     await Promise.all(

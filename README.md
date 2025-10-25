@@ -37,6 +37,8 @@ This module requires native code and will **not** work with Expo Go. You need a 
 
 ## Usage
 
+### Async API (Promise-based)
+
 ```typescript
 import Storage from 'expo-native-storage';
 
@@ -59,6 +61,34 @@ await Storage.removeItem('username');
 await Storage.clear();
 ```
 
+### Sync API (Immediate, no Promises)
+
+```typescript
+import Storage from 'expo-native-storage';
+
+// Store strings synchronously
+Storage.setItemSync('username', 'john_doe');
+const username = Storage.getItemSync('username'); // 'john_doe'
+
+// Store objects synchronously
+Storage.setObjectSync('user', { 
+  name: 'John', 
+  age: 30,
+  premium: true 
+});
+const user = Storage.getObjectSync('user');
+
+// Remove items synchronously
+Storage.removeItemSync('username');
+
+// Clear all synchronously
+Storage.clearSync();
+```
+
+**When to use sync vs async:**
+- **Sync methods**: App initialization, reading config on startup, settings screens
+- **Async methods**: When you need to coordinate with other async operations, or prefer Promise-based code
+
 ## Example: Theme Storage
 
 ```typescript
@@ -71,6 +101,8 @@ const theme = await Storage.getItem('theme') || 'light';
 
 ## API
 
+### Async Methods
+
 | Method | Description | Return |
 |--------|-------------|---------|
 | `setItem(key, value)` | Store a string value | `Promise<void>` |
@@ -79,10 +111,23 @@ const theme = await Storage.getItem('theme') || 'light';
 | `getObject<T>(key)` | Get an object from JSON | `Promise<T \| null>` |
 | `removeItem(key)` | Remove an item | `Promise<void>` |
 | `clear()` | Remove all items | `Promise<void>` |
+| `multiGet(keys)` | Get multiple items at once | `Promise<Record<string, string \| null>>` |
+| `multiSet(items)` | Set multiple items at once | `Promise<void>` |
+
+### Sync Methods
+
+| Method | Description | Return |
+|--------|-------------|---------|
+| `setItemSync(key, value)` | Store a string value | `void` |
+| `getItemSync(key)` | Get a string value | `string \| null` |
+| `setObjectSync(key, object)` | Store an object as JSON | `void` |
+| `getObjectSync<T>(key)` | Get an object from JSON | `T \| null` |
+| `removeItemSync(key)` | Remove an item | `void` |
+| `clearSync()` | Remove all items | `void` |
 
 ## Performance Results
 
-### Real Device Testing:
+### Async Methods - Real Device Testing:
 
 | Platform | Operations | expo-native-storage | AsyncStorage | Improvement |
 |----------|------------|-------------------|--------------|-------------|
@@ -93,6 +138,15 @@ const theme = await Storage.getItem('theme') || 'light';
 | **Android Emulator** | 100 ops | 12ms | 219ms | **18x faster** |
 | **iOS Phone** | 100 ops | 72ms | 72ms | Same speed |
 | **Bundle Size** | - | 19.6KB | 381KB | **19x smaller** |
+
+### Sync Methods - Real Device Testing:
+
+| Platform | Operations | Sync Methods | Async Methods | Improvement |
+|----------|------------|--------------|---------------|-------------|
+| **Android Phone** | 1000 ops | 98ms | 472ms | **4.8x faster** |
+| **iOS Phone** | 1000 ops | 1098ms | 1499ms | **1.4x faster** |
+
+**Note on iOS Performance:** iOS sync methods are limited by UserDefaults disk I/O (~1ms per write). For bulk operations (1000+ writes), consider using specialized libraries like [react-native-mmkv](https://github.com/mrousavy/react-native-mmkv). Sync methods are perfect for typical use cases like app settings and user preferences.
 
 *Tested on iPhone 17 Pro and Nothing Phone 3a with Android 15.*  
 *Emulator results from MacBook Pro M4 with 16GB RAM.*
