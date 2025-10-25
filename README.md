@@ -22,6 +22,19 @@ bunx expo install expo-native-storage
 npx expo install expo-native-storage
 ```
 
+> [!IMPORTANT]
+> After installation, you must rebuild your app to link the native module. This module requires native code and will **not** work with Expo Go. You need a development build or production build.
+
+```bash
+# For development builds
+npx expo prebuild --clean
+npx expo run:ios
+# or
+npx expo run:android
+```
+
+This module requires native code and will **not** work with Expo Go. You need a development build or production build.
+
 ## Usage
 
 ```typescript
@@ -120,6 +133,44 @@ Drop-in replacement with zero breaking changes.
 
 - Expo SDK 50+
 - Development builds (not available in Expo Go)
+
+## Troubleshooting
+
+### Error: Cannot find native module 'ExpoNativeStorage'
+
+This error means the native module isn't linked. To fix:
+
+1. **Rebuild your app** after installing:
+   ```bash
+   bunx expo prebuild --clean
+   bunx expo run:ios  # or run:android
+   ```
+
+2. **Clear caches** if the issue persists:
+   ```bash
+   # clear Metro bundler cache
+   bunx expo start -c
+   
+   # clear all caches
+   rm -rf node_modules
+   bun install  # or npm install
+   bunx expo prebuild --clean
+   ```
+
+3. **Verify installation**:
+   - Check that `expo-native-storage` is in your `package.json`
+   - Make sure you're using a development build, not Expo Go
+   - For iOS: Check that `ExpoNativeStorage` appears in your Podfile.lock
+   - For Android: Check that the module is in your build.gradle dependencies
+
+### Still having issues?
+
+Open an issue on [GitHub](https://github.com/thereallo1026/expo-native-storage/issues) with:
+- Your Expo SDK version
+- React Native version
+- Platform (iOS/Android)
+- Full error message
+- Whether you're using Expo Go or a development build
 
 ## License
 

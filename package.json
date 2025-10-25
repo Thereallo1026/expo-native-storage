@@ -41,7 +41,7 @@
     "url": "https://github.com/thereallo1026/expo-native-storage/issues"
   },
   "peerDependencies": {
-    "expo": "*",
+    "expo": ">=53.0.0",
     "react": "*",
     "react-native": "*"
   },
