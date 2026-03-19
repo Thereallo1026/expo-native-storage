@@ -46,7 +46,7 @@
     "react-native": "*"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.4.8",
     "expo-module-scripts": "^3.0.0",
     "expo-modules-core": "^1.5.0",
     "ultracite": "5.4.4"
