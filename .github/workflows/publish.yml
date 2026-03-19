@@ -69,9 +69,7 @@ jobs:
         run: bun run pack
       
       - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
       
       - name: Create Git Tag
         run: |
