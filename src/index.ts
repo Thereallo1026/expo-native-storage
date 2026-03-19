@@ -32,11 +32,7 @@ export class NativeStorage {
 		if (value === null) {
 			return null;
 		}
-		try {
-			return JSON.parse(value) as T;
-		} catch {
-			return null;
-		}
+		return JSON.parse(value) as T;
 	}
 
 	// sync
@@ -70,11 +66,7 @@ export class NativeStorage {
 		if (value === null) {
 			return null;
 		}
-		try {
-			return JSON.parse(value) as T;
-		} catch {
-			return null;
-		}
+		return JSON.parse(value) as T;
 	}
 
 	// multi ops
