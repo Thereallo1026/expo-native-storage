@@ -1,6 +1,9 @@
+require 'json'
+package = JSON.parse(File.read(File.join(__dir__, '..', 'package.json')))
+
 Pod::Spec.new do |s|
   s.name           = 'ExpoNativeStorage'
-  s.version        = '1.0.0'
+  s.version        = package['version']
   s.summary        = 'Lightning-fast native storage for Expo'
   s.description    = 'A fast native storage solution using UserDefaults on iOS and SharedPreferences on Android'
   s.author         = 'Thereallo'
