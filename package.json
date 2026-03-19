@@ -32,13 +32,13 @@
 	],
 	"author": "Thereallo",
 	"license": "MIT",
-	"homepage": "https://github.com/thereallo1026/expo-native-storage",
+	"homepage": "https://github.com/Thereallo1026/expo-native-storage",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/thereallo1026/expo-native-storage.git"
+		"url": "https://github.com/Thereallo1026/expo-native-storage.git"
 	},
 	"bugs": {
-		"url": "https://github.com/thereallo1026/expo-native-storage/issues"
+		"url": "https://github.com/Thereallo1026/expo-native-storage/issues"
 	},
 	"peerDependencies": {
 		"expo": ">=53.0.0",
