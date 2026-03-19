@@ -65,7 +65,7 @@ jobs:
         run: bun run build
       
       - name: Pack tarball
-        run: bun run pack
+        run: bun pm pack
       
       - name: Publish to npm
         run: npm publish --access public
@@ -89,9 +89,9 @@ jobs:
         id: changelog
         run: |
           if [ -n "${{ steps.previoustag.outputs.tag }}" ]; then
-            CHANGELOG=$(git log ${{ steps.previoustag.outputs.tag }}..HEAD --pretty=format:"- %s (%h)" --no-merges)
+            CHANGELOG=$(git log ${{ steps.previoustag.outputs.tag }}..HEAD^ --pretty=format:"- %s (%h)" --no-merges)
           else
-            CHANGELOG=$(git log --pretty=format:"- %s (%h)" --no-merges)
+            CHANGELOG=$(git log HEAD^ --pretty=format:"- %s (%h)" --no-merges)
           fi
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           echo "$CHANGELOG" >> $GITHUB_OUTPUT
@@ -123,7 +123,7 @@ jobs:
             **Full Changelog**: https://github.com/Thereallo1026/expo-native-storage/compare/${{ steps.previoustag.outputs.tag }}...v${{ needs.check-version.outputs.version }}
           files: |
             expo-native-storage-*.tgz
-          generate_release_notes: true
+          generate_release_notes: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
