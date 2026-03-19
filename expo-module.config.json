@@ -1,18 +1,10 @@
 {
-    "platforms": [
-        "ios",
-        "android",
-        "web"
-    ],
-    "ios": {
-        "modules": [
-            "ExpoNativeStorageModule"
-        ]
-    },
-    "android": {
-        "modules": [
-            "expo.modules.nativestorage.ExpoNativeStorageModule"
-        ]
-    },
-    "web": {}
+	"platforms": ["ios", "android", "web"],
+	"ios": {
+		"modules": ["ExpoNativeStorageModule"]
+	},
+	"android": {
+		"modules": ["expo.modules.nativestorage.ExpoNativeStorageModule"]
+	},
+	"web": {}
 }

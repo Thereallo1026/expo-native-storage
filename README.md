@@ -8,7 +8,7 @@ Lightning-fast native storage for Expo using UserDefaults and SharedPreferences.
 ## Why?
 
 - **Fast**: Direct native storage, no bridge delays
-- **Tiny**: 19x smaller bundle size compared to AsyncStorage
+- **Tiny**: 8.15KB install size vs AsyncStorage's 15MB
 - **Scales**: Gets faster with more operations (up to 32x on Android)
 - **Web support**: Falls back to localStorage  
 - **Native**: Uses UserDefaults (iOS) & SharedPreferences (Android)
@@ -137,7 +137,7 @@ const theme = await Storage.getItem('theme') || 'light';
 | | 1000 ops | ~95ms | ~1216ms | **13x faster** |
 | **Android Emulator** | 100 ops | 12ms | 219ms | **18x faster** |
 | **iOS Phone** | 100 ops | 72ms | 72ms | Same speed |
-| **Bundle Size** | - | 19.6KB | 381KB | **19x smaller** |
+| **Bundle Size** | - | 8.15KB | 15MB | **~1,800x smaller** |
 
 ### Sync Methods - Real Device Testing:
 
@@ -185,7 +185,7 @@ Drop-in replacement with zero breaking changes.
 
 ## Requirements
 
-- Expo SDK 50+
+- Expo SDK 53+
 - Development builds (not available in Expo Go)
 
 ## Troubleshooting
