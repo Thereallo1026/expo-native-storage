@@ -14,7 +14,7 @@ jobs:
       version-changed: ${{ steps.check.outputs.changed }}
       version: ${{ steps.get-version.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 2
       
@@ -44,16 +44,16 @@ jobs:
       packages: write
     
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       
-      - uses: oven-sh/setup-bun@v1
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
       
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
@@ -65,7 +65,7 @@ jobs:
         run: bun run build
       
       - name: Pack tarball
-        run: bun pm pack
+        run: bun run pack
       
       - name: Publish to npm
         run: npm publish --access public
